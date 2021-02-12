@@ -9,7 +9,7 @@ function createWindow () {
     }
   })
 
-  win.loadFile('index.php');
+  win.loadFile('index.html');
   win.setMenuBarVisibility(false)
 }
 

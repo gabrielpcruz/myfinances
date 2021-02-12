@@ -16,7 +16,7 @@ var Script = (function () {
     };
 
     let isHome = function () {
-        return getFilePathName() == 'index.php';
+        return getFilePathName() == 'index.html';
     };
 
     let isUpdate = function () {
@@ -43,7 +43,7 @@ var Script = (function () {
         let currentPath = window.location.pathname;
         let currentFile = getFilePathName();
 
-        location.href = currentPath.replace(currentFile, 'index.php');
+        location.href = currentPath.replace(currentFile, 'index.html');
     };
 
     let getParamUrl = function ($param) {
