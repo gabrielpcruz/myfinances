@@ -40,9 +40,9 @@
 (function (factory, jQuery, Zepto) {
 
     if (typeof define === 'function' && define.amd) {
-        define(['jquery'], factory);
+        define(['.old/js/libs/jquery'], factory);
     } else if (typeof exports === 'object' && typeof Meteor === 'undefined') {
-        module.exports = factory(require('jquery'));
+        module.exports = factory(require('.old/js/libs/jquery'));
     } else {
         factory(jQuery || Zepto);
     }
