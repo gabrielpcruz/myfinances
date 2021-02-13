@@ -5,3 +5,7 @@
 <script type="text/javascript" src="{{ asset('assets/js/libs/boostrap.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/libs/toastr.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/libs/jquery-mask.js') }}"></script>
+
+
+<script type="text/javascript" src="{{ asset('assets/js/Script.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/Message.js') }}"></script>

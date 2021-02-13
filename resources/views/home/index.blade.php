@@ -12,7 +12,7 @@
                     <th class="text-right">Balance</th>
                     <th class="text-right">%</th>
                     <th class="text-right">
-                        <a href="{{ url('/account') }}" class="btn btn-sm btn-primary text-light">
+                        <a href="{{ url('/account/create') }}" class="btn btn-sm btn-primary text-light">
                             New account
                         </a>
                     </th>

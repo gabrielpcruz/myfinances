@@ -70,7 +70,7 @@ var Account = (function () {
                 let id = AccountStorage.get(Script.getParamUrl('id')).id;
 
                 let accountOld = AccountStorage.get(id);
-                
+
                 accountOld.accountName = $("#newAccountForm #accountName").val();
                 accountOld.description = $("#newAccountForm #description").val();
 
@@ -157,7 +157,7 @@ var Account = (function () {
 
         let accountName = $("<td>");
         accountName.text(current.accountName);
-        
+
         let objective = $("<td>");
         objective.addClass("text-right");
         objective.addClass("money");
@@ -222,12 +222,12 @@ var Account = (function () {
 
     return {
         init: function () {
-            createNewAccount();
-            listAllAccounts();
-            deleteAnAccount();
-            updateAnAccount();
-            fillAccountUpdate();
-            fillAccountSelect();
+            // createNewAccount();
+            // listAllAccounts();
+            // deleteAnAccount();
+            // updateAnAccount();
+            // fillAccountUpdate();
+            // fillAccountSelect();
         }
     }
 })();

@@ -27,18 +27,7 @@
 <script type="text/javascript" src="{{ asset('assets/js/config.js') }}"></script>
 
 @include('layout.scripts')
-
-<!-- Custom JavaScript-->
-<script type="text/javascript" src="{{ asset('assets/js/Script.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/Message.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/storage/AccountStorage.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/account/Account.js') }}"></script>
-
-<script>
-    $(document).ready(function () {
-        Account.init();
-    });
-</script>
+@yield('custom-scripts')
 
 </body>
 </html>
