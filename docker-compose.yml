@@ -23,7 +23,7 @@ services:
     ports:
       - '${DB_PORT}:3306'
     volumes:
-      - './config/docker/mysql/data:/var/lib/mysql'
+      - './../../mysql-data/myfinances:/var/lib/mysql'
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_DATABASE: '${DB_DATABASE}'

@@ -14,13 +14,15 @@ class Account extends Migration
     public function up()
     {
         Schema::create('account', function (Blueprint $table) {
-            $table->integer('id')->unsigned();
-            $table->primary('id');
-
+            $table->integer('id', true, true);
             $table->string('name')->nullable(false);
             $table->decimal('balance', 10, 2)->nullable(false);
             $table->decimal('target', 10, 2)->nullable(false);
             $table->string('description')->nullable(true);
+            $table->dateTime('updated_at', $precision = 0);
+            $table->dateTime('created_at', $precision = 0);
+
+//            $table->primary(['id']);
         });
     }
 

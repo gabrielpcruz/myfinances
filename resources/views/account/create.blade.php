@@ -5,18 +5,20 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <form id="newAccountForm">
+            <form id="newAccountForm" method="POST" action="{{ url('/account/store') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+
                 <div class="form-group">
                     <label for="accountName">Account name</label>
-                    <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Car dream">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Car dream">
                 </div>
                 <div class="form-group">
                     <label for="initialBalance">Initial balance</label>
-                    <input type="text" class="form-control" id="initialBalance" name="initialBalance">
+                    <input type="text" class="form-control" id="balance" name="balance">
                 </div>
                 <div class="form-group">
                     <label for="targetValue">Target value</label>
-                    <input type="text" step="any" class="form-control" id="targetValue" name="targetValue">
+                    <input type="text" step="any" class="form-control" id="target" name="target">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
@@ -40,8 +42,8 @@
 @section('custom-scripts')
     <script>
         $(document).ready(function() {
-            $("#initialBalance").mask('#.##0,00', { reverse: true });
-            $("#targetValue").mask('#.##0,00', { reverse: true });
+            $("#balance").mask('#.##0,00', { reverse: true });
+            $("#target").mask('#.##0,00', { reverse: true });
         });
     </script>
 @endsection

@@ -11,6 +11,21 @@ class Transaction extends Model
     use HasFactory;
 
     /**
+     * @var string
+     */
+    protected $table = 'transaction';
+
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * @return BelongsTo
      */
     public function Account()

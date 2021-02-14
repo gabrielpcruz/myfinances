@@ -21,6 +21,21 @@ class Account extends Model
     protected $primaryKey = 'id';
 
     /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'balance',
+        'target',
+        'description',
+    ];
+
+    protected $casts = [
+        'balance' => 'float',
+        'target' => 'float'
+    ];
+
+    /**
      * @return HasMany
      */
     public function transactions()

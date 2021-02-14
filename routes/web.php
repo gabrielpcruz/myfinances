@@ -20,3 +20,6 @@ Route::get('/', [HomeController::class, "index"]);
 
 
 Route::get('/account/create', [AccountController::class, "create"]);
+Route::post('/account/store', [AccountController::class, "store"]);
+Route::get('/account/edit/{id}', [AccountController::class, "edit"]);
+Route::post('/account/update', [AccountController::class, "update"]);

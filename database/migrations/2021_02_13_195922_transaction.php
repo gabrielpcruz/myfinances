@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class Transaction extends Migration
@@ -14,13 +15,13 @@ class Transaction extends Migration
     public function up()
     {
         Schema::create('transaction', function (Blueprint $table) {
-            $table->id()->unsigned();
+            $table->integer('id', true, true);
 
             $table->integer('account_id')->unsigned();
             $table->foreign('account_id')
                 ->references('id')->on('account');
 
-            $table->dateTime('date')->nullable(false);
+            $table->dateTime('date')->nullable(false)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->decimal('value', 10, 2)->nullable(false);
             $table->string('description')->nullable(true);
         });
