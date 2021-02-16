@@ -22,9 +22,7 @@
                               name="description"
                               placeholder="This account will help me to..."
                               rows="3"
-                              value="{{ $account->description }}"
-                    >
-                    </textarea>
+                    >{{ $account->description }}</textarea>
                 </div>
 
                 <div class="form-group">

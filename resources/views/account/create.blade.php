@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <form id="newAccountForm" method="POST" action="{{ url('/account/store') }}">
+            <form method="POST" action="{{ url('/account/store') }}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
                 <div class="form-group">

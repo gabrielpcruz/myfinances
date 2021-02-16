@@ -64,7 +64,7 @@ class AccountController extends Controller
 
             DB::commit();
 
-            return redirect('/')->with('success', 'Cadastrou');
+            return redirect('/')->with('success', 'Account created successfully!');
         } catch (Exception $exception) {
             DB::rollBack();
             return redirect('/')->with('error', $exception->getMessage());
@@ -101,7 +101,172 @@ class AccountController extends Controller
 
             DB::commit();
 
-            return redirect('/')->with('success', 'Cadastrou');
+            return redirect('/')->with('success', 'Account updated successfully!');
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect('/')->with('error', $exception->getMessage());
+        }
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function deposit()
+    {
+        $accounts = Account::all();
+
+        return view(
+            'account.deposit',
+            compact("accounts")
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function depositStore(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $account = Account::query()->where([
+                'id' => $request->get('selectAccount')
+            ])->get()->first();
+
+            $account->balance += parseDbValue($request->get('value'));
+
+            Account::query()->where([
+                'id' => $request->get('selectAccount')
+            ])->update([
+                'balance' => $account->balance
+            ]);
+
+            $transaction = new Transaction();
+            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->description = $request->get('description');
+            $transaction->account_id = $account->id;
+            $transaction->save();
+
+            DB::commit();
+
+            return redirect('/')->with('success', 'Deposit successful!');
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect('/')->with('error', $exception->getMessage());
+        }
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function draft()
+    {
+        $accounts = Account::all();
+
+        return view(
+            'account.draft',
+            compact("accounts")
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function draftStore(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $account = Account::query()->where([
+                'id' => $request->get('selectAccount')
+            ])->get()->first();
+
+            $account->balance -= parseDbValue($request->get('value'));
+
+            Account::query()->where([
+                'id' => $request->get('selectAccount')
+            ])->update([
+                'balance' => $account->balance
+            ]);
+
+            $transaction = new Transaction();
+            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->description = $request->get('description');
+            $transaction->account_id = $account->id;
+            $transaction->save();
+
+            DB::commit();
+
+            return redirect('/')->with('success', 'Draft successful!');
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect('/')->with('error', $exception->getMessage());
+        }
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function transfer()
+    {
+        $accounts = Account::all();
+
+        return view(
+            'account.transfer',
+            compact("accounts")
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function transferStore(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $accountOrigin = Account::query()->where([
+                'id' => $request->get('origin')
+            ])->get()->first();
+
+            $accountOrigin->balance -= parseDbValue($request->get('value'));
+
+            Account::query()->where([
+                'id' => $accountOrigin->id
+            ])->update([
+                'balance' => $accountOrigin->balance
+            ]);
+
+            $transaction = new Transaction();
+            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->description = $request->get('description');
+            $transaction->account_id = $accountOrigin->id;
+            $transaction->save();
+
+            $accountTarget = Account::query()->where([
+                'id' => $request->get('target')
+            ])->get()->first();
+
+            $accountTarget->balance += parseDbValue($request->get('value'));
+
+            Account::query()->where([
+                'id' => $accountTarget->id
+            ])->update([
+                'balance' => $accountTarget->balance
+            ]);
+
+            $transaction = new Transaction();
+            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->description = $request->get('description');
+            $transaction->account_id = $accountTarget->id;
+            $transaction->save();
+
+            DB::commit();
+
+            return redirect('/')->with('success', 'Transfer successful!');
         } catch (Exception $exception) {
             DB::rollBack();
             return redirect('/')->with('error', $exception->getMessage());

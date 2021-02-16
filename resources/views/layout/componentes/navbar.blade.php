@@ -15,7 +15,7 @@
                 <a class="nav-link" href="{{ url('/draft') }}">Draft</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/trasnfer') }}">Transfer</a>
+                <a class="nav-link" href="{{ url('/transfer') }}">Transfer</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/report') }}">Account statement</a>

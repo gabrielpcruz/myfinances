@@ -16,8 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $accounts = Account::all();
-
-
+        
         return view(
             'home.index',
             compact("accounts")
