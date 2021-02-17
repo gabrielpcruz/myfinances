@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\TransactionType;
 use App\Models\Account;
 use App\Models\Transaction;
 use Exception;
@@ -54,12 +55,10 @@ class AccountController extends Controller
 
             $account->save();
 
-
             $transaction = new Transaction();
             $transaction->account_id = $account->id;
-
             $transaction->value = $account->balance;
-
+            $transaction->type = TransactionType::INPUT;
             $transaction->save();
 
             DB::commit();
@@ -146,6 +145,7 @@ class AccountController extends Controller
             $transaction->value = parseDbValue($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $account->id;
+            $transaction->type = TransactionType::INPUT;
             $transaction->save();
 
             DB::commit();
@@ -195,6 +195,7 @@ class AccountController extends Controller
             $transaction->value = parseDbValue($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $account->id;
+            $transaction->type = TransactionType::OUTPUT;
             $transaction->save();
 
             DB::commit();
@@ -244,6 +245,7 @@ class AccountController extends Controller
             $transaction->value = parseDbValue($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $accountOrigin->id;
+            $transaction->type = TransactionType::OUTPUT;
             $transaction->save();
 
             $accountTarget = Account::query()->where([
@@ -262,6 +264,7 @@ class AccountController extends Controller
             $transaction->value = parseDbValue($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $accountTarget->id;
+            $transaction->type = TransactionType::INPUT;
             $transaction->save();
 
             DB::commit();

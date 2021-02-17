@@ -24,6 +24,7 @@ class Transaction extends Migration
             $table->dateTime('date')->nullable(false)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->decimal('value', 10, 2)->nullable(false);
             $table->string('description')->nullable(true);
+            $table->enum('type', [1, 2])->nullable(false);
         });
     }
 
