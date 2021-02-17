@@ -45,12 +45,12 @@ class AccountController extends Controller
 
             $account->setAttribute(
                 'balance',
-                parseDbValue($request->get('balance'))
+                parse_db_value($request->get('balance'))
             );
 
             $account->setAttribute(
                 'target',
-                parseDbValue($request->get('target'))
+                parse_db_value($request->get('target'))
             );
 
             $account->save();
@@ -133,7 +133,7 @@ class AccountController extends Controller
                 'id' => $request->get('selectAccount')
             ])->get()->first();
 
-            $account->balance += parseDbValue($request->get('value'));
+            $account->balance += parse_db_value($request->get('value'));
 
             Account::query()->where([
                 'id' => $request->get('selectAccount')
@@ -142,7 +142,7 @@ class AccountController extends Controller
             ]);
 
             $transaction = new Transaction();
-            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->value = parse_db_value($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $account->id;
             $transaction->type = TransactionType::INPUT;
@@ -183,7 +183,7 @@ class AccountController extends Controller
                 'id' => $request->get('selectAccount')
             ])->get()->first();
 
-            $account->balance -= parseDbValue($request->get('value'));
+            $account->balance -= parse_db_value($request->get('value'));
 
             Account::query()->where([
                 'id' => $request->get('selectAccount')
@@ -192,7 +192,7 @@ class AccountController extends Controller
             ]);
 
             $transaction = new Transaction();
-            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->value = parse_db_value($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $account->id;
             $transaction->type = TransactionType::OUTPUT;
@@ -233,7 +233,7 @@ class AccountController extends Controller
                 'id' => $request->get('origin')
             ])->get()->first();
 
-            $accountOrigin->balance -= parseDbValue($request->get('value'));
+            $accountOrigin->balance -= parse_db_value($request->get('value'));
 
             Account::query()->where([
                 'id' => $accountOrigin->id
@@ -242,7 +242,7 @@ class AccountController extends Controller
             ]);
 
             $transaction = new Transaction();
-            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->value = parse_db_value($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $accountOrigin->id;
             $transaction->type = TransactionType::OUTPUT;
@@ -252,7 +252,7 @@ class AccountController extends Controller
                 'id' => $request->get('target')
             ])->get()->first();
 
-            $accountTarget->balance += parseDbValue($request->get('value'));
+            $accountTarget->balance += parse_db_value($request->get('value'));
 
             Account::query()->where([
                 'id' => $accountTarget->id
@@ -261,7 +261,7 @@ class AccountController extends Controller
             ]);
 
             $transaction = new Transaction();
-            $transaction->value = parseDbValue($request->get('value'));
+            $transaction->value = parse_db_value($request->get('value'));
             $transaction->description = $request->get('description');
             $transaction->account_id = $accountTarget->id;
             $transaction->type = TransactionType::INPUT;

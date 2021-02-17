@@ -30,7 +30,7 @@
                                 {{ number_format($account->balance, 2, ',', '.') }}
                             </td>
                             <td class="text-right">
-                                {{ number_format(getPercentAccount($account), 2, ',', '.') }}%
+                                {{ number_format(get_percent_account($account), 2, ',', '.') }}%
                             </td>
                             <td class="text-right">
                                 <a href="{{ url("/account/edit/{$account->id}") }}"
@@ -54,7 +54,7 @@
                     </td>
                     <td class="text-right">
                         <strong id="total">
-                            {{ number_format(roundValue(reduce($accounts, 'balance')), 2, ',', '.') }}
+                            {{ number_format(round_value(reduce($accounts, 'balance')), 2, ',', '.') }}
                         </strong>
                     </td>
                     <td colspan="2"></td>

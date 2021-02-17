@@ -3,22 +3,22 @@
 use App\Models\Account;
 use Illuminate\Database\Eloquent\Collection;
 
-if (!function_exists('getPercentAccount')) {
-    function getPercentAccount( Account $account) {
+if (!function_exists('get_percent_account')) {
+    function get_percent_account(Account $account) {
         $value = ($account->balance * 100 ) / $account->target;
 
-        return roundValue($value);
+        return round_value($value);
     }
 }
 
-if (!function_exists('roundValue')) {
-    function roundValue($value) {
+if (!function_exists('round_value')) {
+    function round_value($value) {
         return floatval(round($value, 2));
     }
 }
 
-if (!function_exists('parseDbValue')) {
-    function parseDbValue($value) {
+if (!function_exists('parse_db_value')) {
+    function parse_db_value($value) {
         $value = str_replace('.', '', $value);
         $value = str_replace(',', '.', $value);
 
@@ -35,4 +35,15 @@ if (!function_exists('reduce')) {
         });
     }
 }
+
+if (!function_exists('is_account_selected')) {
+    function is_account_selected(Account $account, $accountSelected) {
+        if (!$accountSelected) {
+            return "";
+        }
+
+        return $accountSelected == $account->id ? "selected=selected" : "";
+    }
+}
+
 
