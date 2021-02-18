@@ -56,7 +56,7 @@ class Transaction extends Model
     public function setTypeAttribute($value)
     {
         if (!in_array($value, [TransactionType::INPUT, TransactionType::OUTPUT])) {
-            throw new InvalidArgumentException("Report a valid transactions type!");
+            throw new InvalidArgumentException("Report a valid transaction type!");
         }
 
         $this->attributes['type'] = $value;
