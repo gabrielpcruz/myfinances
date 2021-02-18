@@ -6,19 +6,19 @@
     <div class="row">
         <div class="col-md-12">
             <form method="POST" action="{{ url('/account/store') }}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                @csrf
 
                 <div class="form-group">
-                    <label for="accountName">Account name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Car dream">
+                    <label for="name">Account name</label>
+                    <input type="text" class="form-control" required id="name" name="name" placeholder="Car dream">
                 </div>
                 <div class="form-group">
-                    <label for="initialBalance">Initial balance</label>
-                    <input type="text" class="form-control" id="balance" name="balance">
+                    <label for="balance">Initial balance</label>
+                    <input placeholder="0,00" type="text" class="form-control" required id="balance" name="balance">
                 </div>
                 <div class="form-group">
-                    <label for="targetValue">Target value</label>
-                    <input type="text" step="any" class="form-control" id="target" name="target">
+                    <label for="target">Target value</label>
+                    <input placeholder="0,00" type="text" step="any" class="form-control" required id="target" name="target">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
@@ -27,8 +27,8 @@
                               id="description"
                               name="description"
                               placeholder="This account will help me to..."
-                              rows="3">
-                    </textarea>
+                              rows="3"
+                    ></textarea>
                 </div>
 
                 <div class="form-group">

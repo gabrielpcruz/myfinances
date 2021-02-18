@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\TransactionType;
+use App\Exceptions\AccountException;
 use App\Models\Account;
 use App\Models\Transaction;
 use Exception;
@@ -42,17 +43,6 @@ class AccountController extends Controller
 
             $account = new Account();
             $account->fill($request->all());
-
-            $account->setAttribute(
-                'balance',
-                parse_db_value($request->get('balance'))
-            );
-
-            $account->setAttribute(
-                'target',
-                parse_db_value($request->get('target'))
-            );
-
             $account->save();
 
             $transaction = new Transaction();
@@ -66,7 +56,7 @@ class AccountController extends Controller
             return redirect('/')->with('success', 'Account created successfully!');
         } catch (Exception $exception) {
             DB::rollBack();
-            return redirect('/')->with('error', $exception->getMessage());
+            return redirect('/account/create')->with('error', $exception->getMessage());
         }
     }
 
@@ -103,7 +93,7 @@ class AccountController extends Controller
             return redirect('/')->with('success', 'Account updated successfully!');
         } catch (Exception $exception) {
             DB::rollBack();
-            return redirect('/')->with('error', $exception->getMessage());
+            return redirect('/account/edit')->with('error', $exception->getMessage());
         }
     }
 
@@ -129,31 +119,19 @@ class AccountController extends Controller
         try {
             DB::beginTransaction();
 
+            /** @var Account $account */
             $account = Account::query()->where([
                 'id' => $request->get('selectAccount')
             ])->get()->first();
 
-            $account->balance += parse_db_value($request->get('value'));
-
-            Account::query()->where([
-                'id' => $request->get('selectAccount')
-            ])->update([
-                'balance' => $account->balance
-            ]);
-
-            $transaction = new Transaction();
-            $transaction->value = parse_db_value($request->get('value'));
-            $transaction->description = $request->get('description');
-            $transaction->account_id = $account->id;
-            $transaction->type = TransactionType::INPUT;
-            $transaction->save();
+            $this->toDeposit($account, $request, TransactionType::INPUT);
 
             DB::commit();
 
             return redirect('/')->with('success', 'Deposit successful!');
         } catch (Exception $exception) {
             DB::rollBack();
-            return redirect('/')->with('error', $exception->getMessage());
+            return redirect('/deposit')->with('error', $exception->getMessage());
         }
     }
 
@@ -179,31 +157,19 @@ class AccountController extends Controller
         try {
             DB::beginTransaction();
 
+            /** @var Account $account */
             $account = Account::query()->where([
                 'id' => $request->get('selectAccount')
             ])->get()->first();
 
-            $account->balance -= parse_db_value($request->get('value'));
-
-            Account::query()->where([
-                'id' => $request->get('selectAccount')
-            ])->update([
-                'balance' => $account->balance
-            ]);
-
-            $transaction = new Transaction();
-            $transaction->value = parse_db_value($request->get('value'));
-            $transaction->description = $request->get('description');
-            $transaction->account_id = $account->id;
-            $transaction->type = TransactionType::OUTPUT;
-            $transaction->save();
+            $this->toDraft($account, $request, TransactionType::OUTPUT);
 
             DB::commit();
 
             return redirect('/')->with('success', 'Draft successful!');
         } catch (Exception $exception) {
             DB::rollBack();
-            return redirect('/')->with('error', $exception->getMessage());
+            return redirect('/draft')->with('error', $exception->getMessage());
         }
     }
 
@@ -229,50 +195,72 @@ class AccountController extends Controller
         try {
             DB::beginTransaction();
 
+            if ($request->origin == $request->target) {
+                throw new AccountException("The target account can't be the same of origin!");
+            }
+
+            /** @var Account $account */
             $accountOrigin = Account::query()->where([
-                'id' => $request->get('origin')
+                'id' => $request->origin
             ])->get()->first();
 
-            $accountOrigin->balance -= parse_db_value($request->get('value'));
+            $this->toDraft($accountOrigin, $request, TransactionType::OUTPUT);
 
-            Account::query()->where([
-                'id' => $accountOrigin->id
-            ])->update([
-                'balance' => $accountOrigin->balance
-            ]);
-
-            $transaction = new Transaction();
-            $transaction->value = parse_db_value($request->get('value'));
-            $transaction->description = $request->get('description');
-            $transaction->account_id = $accountOrigin->id;
-            $transaction->type = TransactionType::OUTPUT;
-            $transaction->save();
-
+            /** @var Account $account */
             $accountTarget = Account::query()->where([
-                'id' => $request->get('target')
+                'id' => $request->target
             ])->get()->first();
 
-            $accountTarget->balance += parse_db_value($request->get('value'));
-
-            Account::query()->where([
-                'id' => $accountTarget->id
-            ])->update([
-                'balance' => $accountTarget->balance
-            ]);
-
-            $transaction = new Transaction();
-            $transaction->value = parse_db_value($request->get('value'));
-            $transaction->description = $request->get('description');
-            $transaction->account_id = $accountTarget->id;
-            $transaction->type = TransactionType::INPUT;
-            $transaction->save();
+            $this->toDeposit($accountTarget, $request, TransactionType::INPUT);
 
             DB::commit();
 
             return redirect('/')->with('success', 'Transfer successful!');
         } catch (Exception $exception) {
             DB::rollBack();
-            return redirect('/')->with('error', $exception->getMessage());
+            return redirect('/transfer')->with('error', $exception->getMessage());
         }
+    }
+
+    /**
+     * @param Account $account
+     * @param Request $request
+     * @param string $transactionType
+     */
+    protected function toDeposit(
+        Account $account,
+        Request $request,
+        string $transactionType
+    ): void {
+        $account->deposit($request->value);
+        $account->save();
+
+        $transaction = new Transaction();
+        $transaction->value = $request->value;
+        $transaction->description = $request->description;
+        $transaction->account_id = $account->id;
+        $transaction->type = $transactionType;
+        $transaction->save();
+    }
+
+    /**
+     * @param Account $account
+     * @param Request $request
+     * @throws AccountException
+     */
+    protected function toDraft(
+        Account $account,
+        Request $request,
+        string $transactionType
+    ): void {
+        $account->draft($request->value);
+        $account->save();
+
+        $transaction = new Transaction();
+        $transaction->value = $request->value;
+        $transaction->description = $request->description;
+        $transaction->account_id = $account->id;
+        $transaction->type = $transactionType;
+        $transaction->save();
     }
 }

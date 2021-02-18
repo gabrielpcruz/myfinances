@@ -6,7 +6,8 @@
     <div class="row">
         <div class="col-md-12">
             <form method="POST" action="{{ url('/account/update') }}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                @csrf
+
                 <input type="hidden" name="id" value="{{ $account->id }}" />
 
                 <div class="form-group">

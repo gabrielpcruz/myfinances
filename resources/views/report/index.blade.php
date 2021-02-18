@@ -10,7 +10,7 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="selectAccount">Select an account</label>
             </div>
-            <select class="custom-select" id="selectAccount" name="selectAccount">
+            <select class="custom-select" required id="selectAccount" name="selectAccount">
                 @foreach($accounts as $account)
                     <option
                         {{ is_account_selected($account, ($accountSelected ?? false)) }}
@@ -44,7 +44,7 @@
                             {{ (new DateTime($transaction->date))->format('d/m/Y H:i:s') }}
                         </td>
                         <td class="text-left">
-                            {{ $transaction->description }}
+                            {{ $transaction->description ?? "-" }}
                         </td>
                         <td class="text-right {{ $transaction->type == 1 ? "text-success" : "text-danger" }}">
                             {{ number_format(round_value($transaction->value), 2, ',', '.')}}
