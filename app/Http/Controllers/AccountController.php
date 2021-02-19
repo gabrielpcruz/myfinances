@@ -235,12 +235,7 @@ class AccountController extends Controller
         $account->deposit($request->value);
         $account->save();
 
-        $transaction = new Transaction();
-        $transaction->value = $request->value;
-        $transaction->description = $request->description;
-        $transaction->account_id = $account->id;
-        $transaction->type = $transactionType;
-        $transaction->save();
+        $this->doTransaction($request, $account, $transactionType);
     }
 
     /**
@@ -256,6 +251,19 @@ class AccountController extends Controller
         $account->draft($request->value);
         $account->save();
 
+        $this->doTransaction($request, $account, $transactionType);
+    }
+
+    /**
+     * @param Request $request
+     * @param Account $account
+     * @param string $transactionType
+     */
+    protected function doTransaction(
+        Request $request,
+        Account $account,
+        string $transactionType
+    ): void {
         $transaction = new Transaction();
         $transaction->value = $request->value;
         $transaction->description = $request->description;

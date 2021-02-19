@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,7 @@ Route::get('/transfer', [AccountController::class, "transfer"]);
 Route::post('/transfer/store', [AccountController::class, "transferStore"]);
 
 Route::get('/report', [ReportController::class, "index"]);
+Route::post('/report/show', [ReportController::class, "show"]);
+
+Route::get('/backup', [BackupController::class, "index"]);
 Route::post('/report/show', [ReportController::class, "show"]);

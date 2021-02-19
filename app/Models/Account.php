@@ -17,6 +17,10 @@ class Account extends Model
      */
     protected $table = 'account';
 
+    protected $attributes = [
+        'description' => ''
+    ];
+
     /**
      * @var string
      */
