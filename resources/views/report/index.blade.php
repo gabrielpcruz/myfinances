@@ -140,7 +140,7 @@
                 @foreach($transactions as $transaction)
 
                     <tr>
-                        <td class="text-left">
+                        <td class="text-left text-nowrap">
                             {{ (new DateTime($transaction->date))->format('d/m/Y H:i:s') }}
                         </td>
                         <td class="text-left">
