@@ -46,4 +46,15 @@ if (!function_exists('is_account_selected')) {
     }
 }
 
+if (!function_exists('is_transaction_type_selected')) {
+    function is_transaction_type_selected($transactionSelected, $value) {
+        if (!$transactionSelected) {
+            return "";
+        }
+
+        return $transactionSelected == $value ? "selected=selected" : "";
+    }
+}
+
+
 

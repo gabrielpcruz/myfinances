@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/toastr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}">
 
+    @yield('custom-style')
+
     <title>@yield('title')</title>
 </head>
 

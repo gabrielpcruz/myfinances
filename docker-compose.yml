@@ -3,7 +3,7 @@ services:
   webserver:
     build:
       context: ./config/docker
-    container_name: webserver-npf
+    container_name: webserver-npf-laravel-8.x
     restart: on-failure
     expose:
       - '9000'
@@ -18,7 +18,7 @@ services:
   mysql:
     build:
       context: ./config/docker/mysql
-    container_name: mysql-npf
+    container_name: mysql-npf-laravel-8.x
     restart: always
     ports:
       - '${DB_PORT}:3306'
