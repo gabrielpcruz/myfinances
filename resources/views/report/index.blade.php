@@ -128,7 +128,7 @@
             <tr>
                 <th class="text-center text-success">{{ number_format(round_value($totalInputs), 2, ',', '.') }}</th>
                 <th class="text-center text-danger">{{ number_format(round_value($totalOutputs), 2, ',', '.') }}</th>
-                <th class="text-center">{{ number_format(round_value(($totalInputs - $totalOutputs)), 2, ',', '.') }}</th>
+                <th class="text-center">{{ number_format(round_value($totalInputs) - round_value($totalOutputs), 2, ',', '.') }}</th>
             </tr>
         </table>
         <table id="statementTable" class="table table-striped table-hover">
