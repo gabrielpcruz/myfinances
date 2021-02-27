@@ -75,7 +75,7 @@ class ReportController extends Controller
             ]);
         }
 
-        $transactions = $query->get();
+        $transactions = $query->orderBy('date', 'desc')->get();
 
         foreach ($transactions as $transaction) {
             $totalInputs += $transaction->type == TransactionType::INPUT ? $transaction->value : 0;
