@@ -1,0 +1,31 @@
+version: '3'
+services:
+  webserver:
+    build:
+      context: ./config/docker
+    container_name: webserver-npf-laravel-8.x
+    restart: on-failure
+    expose:
+      - '9000'
+    ports:
+      - '80:80'
+    volumes:
+      - '${DOCUMENT_ROOT-./www}:/var/www/html'
+    environment:
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      PHP_IDE_CONFIG: serverName=localhost
+  mysql:
+    build:
+      context: ./config/docker/mysql
+    container_name: mysql-npf-laravel-8.x
+    restart: always
+    ports:
+      - '${DB_PORT}:3306'
+    volumes:
+      - '${MYSQL_PATH-./}:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
