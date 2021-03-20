@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\Authentication;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\ReportController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
@@ -18,26 +20,42 @@ use App\Http\Controllers\AccountController;
 |
 */
 
-Route::get('/', [HomeController::class, "index"]);
+Route::get('/', [HomeController::class, "index"])->middleware('auth');
 
+Route::get('/login', [Authentication::class, 'index'])->name('login');
+Route::post('/login', [Authentication::class, 'login']);
 
-Route::get('/account/create', [AccountController::class, "create"]);
-Route::post('/account/store', [AccountController::class, "store"]);
+Route::get('/register', [Authentication::class, 'create']);
+Route::post('/register', [Authentication::class, 'store']);
 
-Route::get('/account/edit/{id}', [AccountController::class, "edit"]);
-Route::post('/account/update', [AccountController::class, "update"]);
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+});
 
-Route::get('/deposit', [AccountController::class, "deposit"]);
-Route::post('/deposit/store', [AccountController::class, "depositStore"]);
+Route::get('/forgot', [Authentication::class, 'forgot']);
 
-Route::get('/draft', [AccountController::class, "draft"]);
-Route::post('/draft/store', [AccountController::class, "draftStore"]);
+Route::get('/account/create', [AccountController::class, "create"])->middleware('auth');
+Route::post('/account/store', [AccountController::class, "store"])->middleware('auth');
 
-Route::get('/transfer', [AccountController::class, "transfer"]);
-Route::post('/transfer/store', [AccountController::class, "transferStore"]);
+Route::get('/account/edit/{id}', [AccountController::class, "edit"])->middleware('auth');
+Route::post('/account/update', [AccountController::class, "update"])->middleware('auth');
 
-Route::get('/report', [ReportController::class, "index"]);
-Route::post('/report/show', [ReportController::class, "show"]);
+Route::get('/deposit', [AccountController::class, "deposit"])->middleware('auth');
+Route::post('/deposit/store', [AccountController::class, "depositStore"])->middleware('auth');
 
-Route::get('/backup', [BackupController::class, "index"]);
-Route::post('/report/show', [ReportController::class, "show"]);
+Route::get('/draft', [AccountController::class, "draft"])->middleware('auth');
+Route::post('/draft/store', [AccountController::class, "draftStore"])->middleware('auth');
+
+Route::get('/transfer', [AccountController::class, "transfer"])->middleware('auth');
+Route::post('/transfer/store', [AccountController::class, "transferStore"])->middleware('auth');
+
+Route::get('/report', [ReportController::class, "index"])->middleware('auth');
+Route::post('/report/show', [ReportController::class, "show"])->middleware('auth');
+
+Route::get('/backup', [BackupController::class, "index"])->middleware('auth');
+Route::post('/report/show', [ReportController::class, "show"])->middleware('auth');
+
+Route::fallback(function () {
+    return view('error.404');
+});

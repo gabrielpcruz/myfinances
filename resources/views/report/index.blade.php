@@ -2,6 +2,8 @@
 
 @section('title', 'My finances | Report')
 
+@section('report-active', 'active')
+
 @section('custom-style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">

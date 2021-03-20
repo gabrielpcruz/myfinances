@@ -2,6 +2,8 @@
 
 @section('title', 'My finances | Deposit')
 
+@section('deposit-active', 'active')
+
 @section('content')
     <div class="row">
         <div class="col-md-12">

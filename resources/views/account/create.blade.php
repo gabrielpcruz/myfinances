@@ -2,6 +2,8 @@
 
 @section('title', 'My finances | New account')
 
+@section('report-active', 'active')
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
