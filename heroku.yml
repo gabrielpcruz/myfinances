@@ -1,3 +1,4 @@
 build:
   docker:
     web: config/docker/Dockerfile
+    db: config/docker/mysql/Dockerfile
