@@ -41,18 +41,6 @@
                                 Login
                             </button>
                         </div>
-
-                        <div class="mt-4 text-center">
-                            <a href="{{ url('/register') }}" class="float-left">
-                                Register
-                            </a>
-                        </div>
-
-                        <div class="mt-4 text-center">
-                            <a href="{{ url('/forgot') }}" class="float-right">
-                                Forgot Password?
-                            </a>
-                        </div>
                     </form>
                 </div>
             </div>
