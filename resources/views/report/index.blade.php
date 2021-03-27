@@ -67,7 +67,7 @@
                 <label class="input-group-text" for="selectAccount">Select an account</label>
             </div>
 
-            <select class="custom-select" required id="selectAccount" name="selectAccount">
+            <select class="custom-select d-md-inline-block" required id="selectAccount" name="selectAccount">
                 @foreach($accounts as $account)
                     <option
                         {{ is_account_selected($account, ($accountSelected ?? false)) }}
@@ -80,29 +80,37 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group col-6">
-                <label class="mr-2">Período</label>
-                <div class="form-inline">
-                    <div class="input-group mr-4">
-                        <input type="text" value="{{ $initialDate }}" class="form-control datepicker" name="initialDate">
-                        <span class="input-group-addon">
-                            <button class="btn default date-set" type="button">
-                                <i class="fas fa-calendar-day"></i>
-                            </button>
-                        </span>
+            <div class="form-group col-12">
+                <label>Período</label>
+                <div class="form-row">
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="text" value="{{ $initialDate }}" class="form-control datepicker"
+                                   name="initialDate">
+                            <span class="input-group-addon">
+                                <button class="btn default date-set" type="button">
+                                    <i class="fas fa-calendar-day"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <input type="text" value="{{ $finalDate }}" class="form-control datepicker" name="finalDate">
-                        <span class="input-group-addon">
-                            <button class="btn default date-set" type="button">
-                                <i class="fas fa-calendar-day"></i>
-                            </button>
-                        </span>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="text" value="{{ $finalDate }}" class="form-control datepicker"
+                                   name="finalDate">
+                            <span class="input-group-addon">
+                                <button class="btn default date-set" type="button">
+                                    <i class="fas fa-calendar-day"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="form-group col-6">
+        <div class="form-row">
+            <div class="form-group col-12">
                 <label for="transactionType" class="mr-2">Transaction type</label>
                 <select class="form-control" name="transactionType" id="transactionType">
                     <option {{is_transaction_type_selected($transactionType, "")}} value="">All</option>

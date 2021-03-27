@@ -36,12 +36,12 @@
                             </td>
                             <td class="text-right">
                                 <a href="{{ url("/account/edit/{$account->id}") }}"
-                                   class="btn btn-info"
+                                   class="btn d-block d-md-inline-block mb-1 btn-info"
                                 >
                                     Update
                                 </a>
                                 <a href="{{ url("/account/remove/{$account->id}") }}"
-                                   class="btn btn-danger"
+                                   class="btn d-block d-md-inline-block mb-1 btn-danger"
                                 >
                                     Remove
                                 </a>
