@@ -38,6 +38,8 @@ Route::get('/forgot', [Authentication::class, 'forgot']);
 Route::get('/account/create', [AccountController::class, "create"])->middleware('auth');
 Route::post('/account/store', [AccountController::class, "store"])->middleware('auth');
 
+Route::get('/account/complete/{id}', [AccountController::class, "complete"])->middleware('auth');
+
 Route::get('/account/edit/{id}', [AccountController::class, "edit"])->middleware('auth');
 Route::post('/account/update', [AccountController::class, "update"])->middleware('auth');
 

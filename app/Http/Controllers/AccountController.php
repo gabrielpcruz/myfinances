@@ -102,7 +102,7 @@ class AccountController extends Controller
      */
     public function deposit()
     {
-        $accounts = Account::all();
+        $accounts = Account::all()->where('done', '=' , 0);
 
         return view(
             'account.deposit',
@@ -140,7 +140,7 @@ class AccountController extends Controller
      */
     public function draft()
     {
-        $accounts = Account::all();
+        $accounts = Account::all()->where('done', '=' , 0);
 
         return view(
             'account.draft',
@@ -178,7 +178,7 @@ class AccountController extends Controller
      */
     public function transfer()
     {
-        $accounts = Account::all();
+        $accounts = Account::all()->where('done', '=' , 0);
 
         return view(
             'account.transfer',
@@ -219,6 +219,33 @@ class AccountController extends Controller
         } catch (Exception $exception) {
             DB::rollBack();
             return redirect('/transfer')->with('error', $exception->getMessage());
+        }
+    }
+
+    /**
+     * @param $id
+     * @return Application
+     */
+    public function complete($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            /** @var Account $account */
+            $account = Account::query()->where([
+                'id' => $id
+            ])->get()->first();
+
+            $account->done = 1;
+
+            $account->save();
+
+            DB::commit();
+
+            return redirect('/')->with('success', 'Objective complete successful!');
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect('/draft')->with('error', $exception->getMessage());
         }
     }
 

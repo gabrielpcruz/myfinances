@@ -35,6 +35,11 @@
                                 {{ number_format(get_percent_account($account), 2, ',', '.') }}%
                             </td>
                             <td class="text-right">
+                                <a href="{{ url("/account/complete/{$account->id}") }}"
+                                   class="btn d-block d-md-inline-block mb-1 btn-success"
+                                >
+                                    Done
+                                </a>
                                 <a href="{{ url("/account/edit/{$account->id}") }}"
                                    class="btn d-block d-md-inline-block mb-1 btn-info"
                                 >

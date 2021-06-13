@@ -15,8 +15,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $accounts = Account::all();
-        
+        $accounts = Account::all()->where('done', '=' , 0);
+
         return view(
             'home.index',
             compact("accounts")
